@@ -16,7 +16,7 @@ const card = (props: ICardProps) => {
 			<div className="PicContainer" />
 			<div className="CardInfoContainer">
 				<div className="CardInfo">{props.attack} ATK</div>
-				<div className="CardInfo">{props.defense}3 DEF</div>
+				<div className="CardInfo">{props.defense} DEF</div>
 			</div>
 			<div className="BoniContainer">
 				{props.boniArray.map((num, index) => (
