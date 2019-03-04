@@ -5,7 +5,10 @@ import './Card.css';
 interface ICardProps {
 	attack: number;
 	defense: number;
+	boniArray: number[];
 }
+
+const cardBoni = [ '+ Slightly Stronger', '+ High Intelligence', '+ Super Rare', '- Damaged', '- Slow', '- Worthless' ];
 
 const card = (props: ICardProps) => {
 	return (
@@ -16,9 +19,11 @@ const card = (props: ICardProps) => {
 				<div className="CardInfo">{props.defense}3 DEF</div>
 			</div>
 			<div className="BoniContainer">
-				<div className="Bonus"> + Fun</div>
-				<div className="Bonus"> - Time</div>
-				<div className="Bonus"> - Pain</div>
+				{props.boniArray.map((num, index) => (
+					<div key={index} className="Bonus">
+						{cardBoni[num]}
+					</div>
+				))}
 			</div>
 		</div>
 	);
