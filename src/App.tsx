@@ -49,11 +49,11 @@ class App extends React.Component<
 	private createRandomBoni = () => {
 		let newArray: number[] = [];
 		if (newArray.length <= 3) {
-			if (Math.random() >= 0.6) {
+			if (Math.random() <= 0.8) {
 				newArray = [ ...newArray, this.createBonusEntry() ];
-				if (Math.random() >= 0.6) {
+				if (Math.random() <= 0.6) {
 					newArray = [ ...newArray, this.createBonusEntry() ];
-					if (Math.random() >= 0.6) {
+					if (Math.random() <= 0.5) {
 						newArray = [ ...newArray, this.createBonusEntry() ];
 					}
 				}
