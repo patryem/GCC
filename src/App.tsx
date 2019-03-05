@@ -11,9 +11,9 @@ interface IAppState {
 	cardAttack: number;
 	cardDefense: number;
 	cash: number;
+	cardValue: number;
+	multiplier: number;
 }
-
-// const cardBoni = [ 1.4, 1.6, 1.8, 0.8, 0.7, 0.6 ];
 
 class App extends React.Component<
 	{
@@ -21,12 +21,20 @@ class App extends React.Component<
 	},
 	IAppState
 > {
-	public state = { showCard: false, cardBoni: [], cardAttack: 0, cardDefense: 0, cash: 10 };
+	public state = {
+		cardAttack: 0,
+		cardBoni: [],
+		cardDefense: 0,
+		cardValue: 0,
+		cash: 10,
+		multiplier: 1,
+		showCard: false
+	};
 
 	public render() {
 		return (
 			<div className="App">
-				<Header cash={this.state.cash} />
+				<Header cash={this.state.cash} cardValue={this.state.cardValue} />
 				{this.state.showCard ? (
 					<Card
 						attack={this.state.cardAttack}
@@ -43,33 +51,46 @@ class App extends React.Component<
 
 	private createBonusEntry = () => Math.round(Math.random() * 5);
 
-	private createRandomStats = () => {
-		this.setState({
-			cardAttack: Math.round(Math.random() * 10),
-			cardDefense: Math.round(Math.random() * 10)
-		});
-	};
-	private createRandomBoni = () => {
+	private createCardState = () => {
+		const cardAttack = Math.round(Math.random() * 10);
+		const cardDefense = Math.round(Math.random() * 10);
+
+		// [ '+ Slightly Stronger', '+ High Intelligence', '+ Super Rare', '- Damaged', '- Slow', '- Worthless' ]
+		const boni = [ 1.4, 1.6, 1.8, 0.8, 0.7, 0.6 ];
+		let newMultiplier: number = 1;
 		let newArray: number[] = [];
-		if (newArray.length <= 3) {
-			if (Math.random() <= 0.8) {
-				newArray = [ ...newArray, this.createBonusEntry() ];
-				if (Math.random() <= 0.6) {
-					newArray = [ ...newArray, this.createBonusEntry() ];
-					if (Math.random() <= 0.5) {
-						newArray = [ ...newArray, this.createBonusEntry() ];
-					}
+		if (Math.random() <= 0.8) {
+			const bonusOne = this.createBonusEntry();
+			newMultiplier = newMultiplier * boni[bonusOne];
+			newArray = [ ...newArray, bonusOne ];
+			if (Math.random() <= 0.6) {
+				const bonusTwo = this.createBonusEntry();
+				newMultiplier = newMultiplier * boni[bonusTwo];
+				newArray = [ ...newArray, bonusTwo ];
+				if (Math.random() <= 0.5) {
+					const bonusThree = this.createBonusEntry();
+					newMultiplier = newMultiplier * boni[bonusThree];
+					newArray = [ ...newArray, bonusThree ];
 				}
 			}
-			this.setState({
-				cardBoni: newArray
-			});
 		}
+
+		const newValue: number = (cardAttack + cardDefense) * newMultiplier;
+
+		this.setState({
+			cardAttack,
+			cardBoni: newArray,
+			cardDefense,
+			cardValue: newValue,
+			multiplier: newMultiplier
+		});
 	};
 
 	private toggleCard = () => {
-		this.createRandomBoni();
-		this.createRandomStats();
+		if (!this.state.showCard) {
+			this.createCardState();
+		}
+
 		this.setState((prevState) => {
 			return { showCard: !prevState.showCard };
 		});
