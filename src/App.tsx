@@ -5,6 +5,8 @@ import CardPlaceHolder from './components/Card/CardPlaceHolder';
 import Control from './components/Control/Control';
 import Header from './components/Header/Header';
 
+import './components/Control/Control.css';
+
 interface IAppState {
 	showCard: boolean;
 	cardBoni: number[];
@@ -44,7 +46,10 @@ class App extends React.Component<
 				) : (
 					<CardPlaceHolder />
 				)}
-				<Control onClick={this.toggleCard} text="Show Card" />
+				<div className="ControlContainer">
+					<Control onClick={this.createCard} text="Create new card" />
+					<Control onClick={this.sellCard} text="Sell card" />
+				</div>
 			</div>
 		);
 	}
@@ -86,13 +91,21 @@ class App extends React.Component<
 		});
 	};
 
-	private toggleCard = () => {
-		if (!this.state.showCard) {
-			this.createCardState();
-		}
+	private createCard = () => {
+		this.createCardState();
 
 		this.setState((prevState) => {
-			return { showCard: !prevState.showCard };
+			return { showCard: true };
+		});
+	};
+
+	private sellCard = () => {
+		this.setState((prevState) => {
+			return {
+				cardValue: 0,
+				cash: prevState.cash + prevState.cardValue,
+				showCard: false
+			};
 		});
 	};
 }

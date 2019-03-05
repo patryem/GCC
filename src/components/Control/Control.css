@@ -14,3 +14,8 @@
 .Control:active {
 	background-color: #eee;
 }
+
+.ControlContainer {
+	display: flex;
+	justify-content: space-between;
+}
