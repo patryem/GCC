@@ -3,12 +3,14 @@ import * as React from 'react';
 import Card from './components/Card/Card';
 import CardPlaceHolder from './components/Card/CardPlaceHolder';
 import Control from './components/Control/Control';
+import Header from './components/Header/Header';
 
 interface IAppState {
 	showCard: boolean;
 	cardBoni: number[];
 	cardAttack: number;
 	cardDefense: number;
+	cash: number;
 }
 
 // const cardBoni = [ 1.4, 1.6, 1.8, 0.8, 0.7, 0.6 ];
@@ -19,11 +21,12 @@ class App extends React.Component<
 	},
 	IAppState
 > {
-	public state = { showCard: false, cardBoni: [], cardAttack: 0, cardDefense: 0 };
+	public state = { showCard: false, cardBoni: [], cardAttack: 0, cardDefense: 0, cash: 10 };
 
 	public render() {
 		return (
 			<div className="App">
+				<Header cash={this.state.cash} />
 				{this.state.showCard ? (
 					<Card
 						attack={this.state.cardAttack}

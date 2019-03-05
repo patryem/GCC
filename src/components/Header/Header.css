@@ -1,0 +1,17 @@
+.Header {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: space-between;
+}
+
+.Cash {
+	width: 150px;
+	height: auto;
+	padding: 5px;
+	border: solid 2px darkslategrey;
+	border-radius: 4px;
+	background: lightseagreen;
+	display: flex;
+	justify-content: flex-end;
+}
